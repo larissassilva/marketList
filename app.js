@@ -1,4 +1,3 @@
-// Importe os módulos do Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, updateDoc, doc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
@@ -16,8 +15,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-console.log("Firebase inicializado com sucesso:", app);
-
 // Elementos do DOM
 const addItemForm = document.getElementById('add-item-form');
 const itemList = document.getElementById('item-list');
@@ -32,7 +29,7 @@ addItemForm.addEventListener('submit', async (e) => {
         });
         document.getElementById('item-name').value = '';
     } catch (error) {
-        console.error("Error adding document: ", error);
+        console.error("Erro ao adicionar documento: ", error);
     }
 });
 
@@ -59,7 +56,7 @@ function renderItem(doc) {
         try {
             await deleteDoc(doc(db, 'items', id));
         } catch (error) {
-            console.error("Error deleting document: ", error);
+            console.error("Erro ao deletar documento: ", error);
         }
     });
 
@@ -73,7 +70,7 @@ function renderItem(doc) {
                     name: newName
                 });
             } catch (error) {
-                console.error("Error updating document: ", error);
+                console.error("Erro ao atualizar documento: ", error);
             }
         }
     });
