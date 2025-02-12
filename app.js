@@ -1,3 +1,5 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, updateDoc, doc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 // Configurações do Firebase
 const firebaseConfig = {
     apiKey: "SUA_API_KEY",
@@ -9,22 +11,25 @@ const firebaseConfig = {
 };
 
 // Inicializar Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // Elementos do DOM
 const addItemForm = document.getElementById('add-item-form');
 const itemList = document.getElementById('item-list');
 
 // Adicionar item
-addItemForm.addEventListener('submit', (e) => {
+addItemForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const itemName = document.getElementById('item-name').value;
-    db.collection('items').add({
-        name: itemName
-    }).then(() => {
+    try {
+        await addDoc(collection(db, 'items'), {
+            name: itemName
+        });
         document.getElementById('item-name').value = '';
-    });
+    } catch (error) {
+        console.error("Error adding document: ", error);
+    }
 });
 
 // Obter e mostrar itens
@@ -45,24 +50,33 @@ function renderItem(doc) {
     itemList.appendChild(li);
 
     // Deletar item
-    deleteBtn.addEventListener('click', () => {
+    deleteBtn.addEventListener('click', async () => {
         const id = li.getAttribute('data-id');
-        db.collection('items').doc(id).delete();
+        try {
+            await deleteDoc(doc(db, 'items', id));
+        } catch (error) {
+            console.error("Error deleting document: ", error);
+        }
     });
 
     // Editar item
-    editBtn.addEventListener('click', () => {
+    editBtn.addEventListener('click', async () => {
         const newName = prompt('Novo nome:', name.textContent);
         if (newName) {
             const id = li.getAttribute('data-id');
-            db.collection('items').doc(id).update({
-                name: newName
-            });
+            try {
+                await updateDoc(doc(db, 'items', id), {
+                    name: newName
+                });
+            } catch (error) {
+                console.error("Error updating document: ", error);
+            }
         }
     });
 }
 
-db.collection('items').onSnapshot(snapshot => {
+// Monitorar mudanças na coleção
+onSnapshot(collection(db, 'items'), (snapshot) => {
     const changes = snapshot.docChanges();
     changes.forEach(change => {
         if (change.type === 'added') {
