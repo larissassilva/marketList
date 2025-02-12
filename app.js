@@ -1,16 +1,18 @@
+// Importe os módulos do Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, updateDoc, doc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-// Configurações do Firebase
+
 const firebaseConfig = {
-    apiKey: "SUA_API_KEY",
-    authDomain: "SEU_AUTH_DOMAIN",
-    projectId: "SEU_PROJECT_ID",
-    storageBucket: "SEU_STORAGE_BUCKET",
-    messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-    appId: "SEU_APP_ID"
+  apiKey: "AIzaSyDdfaXaFzeXBmJCtPbFapYfCzo6Dqm6pi4",
+  authDomain: "listamercado-dedf4.firebaseapp.com",
+  databaseURL: "https://listamercado-dedf4-default-rtdb.firebaseio.com",
+  projectId: "listamercado-dedf4",
+  storageBucket: "listamercado-dedf4.firebasestorage.app",
+  messagingSenderId: "526738275454",
+  appId: "1:526738275454:web:f44bbcf0cf9b7a63abec2f"
 };
 
-// Inicializar Firebase
+// Inicialize o Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
