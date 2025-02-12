@@ -14,6 +14,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+console.log("Firebase inicializado com sucesso:", app);
+
 // Elementos do DOM
 const addItemForm = document.getElementById('add-item-form');
 const itemList = document.getElementById('item-list');
